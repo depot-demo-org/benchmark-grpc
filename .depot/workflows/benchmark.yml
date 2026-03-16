@@ -1,0 +1,31 @@
+name: Benchmark
+on:
+  push: {}
+  workflow_dispatch: {}
+
+jobs:
+  depot-cacheless:
+    name: Depot Cacheless
+    runs-on: depot-ubuntu-24.04
+    defaults:
+      run:
+        working-directory: upstream
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+      - run: |
+          rm /home/runner/.bazelrc
+          bazel build :grpc
+
+  depot-remote-cache:
+    name: Depot with Remote Cache
+    runs-on: depot-ubuntu-24.04
+    defaults:
+      run:
+        working-directory: upstream
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+      - run: bazel build :grpc
