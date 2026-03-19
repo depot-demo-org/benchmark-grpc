@@ -15,8 +15,6 @@ jobs:
         with:
           submodules: recursive
       - run: |
-          echo ${PATH}
-          /usr/bin/gcc --version
           rm /home/runner/.bazelrc
           bazel build :grpc
 
@@ -30,7 +28,4 @@ jobs:
       - uses: actions/checkout@v4
         with:
           submodules: recursive
-      - run: |
-          echo ${PATH}
-          /usr/bin/gcc --version
-          bazel build :grpc
+      - run: bazel build :grpc
