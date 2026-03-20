@@ -6,7 +6,9 @@ on:
 jobs:
   depot-cacheless:
     name: Depot Cacheless
-    runs-on: depot-ubuntu-24.04
+    runs-on:
+      size: 2x8
+      image: ${{ vars.BENCHMARK_SNAPSHOT_IMAGE }}
     defaults:
       run:
         working-directory: upstream
@@ -14,13 +16,16 @@ jobs:
       - uses: actions/checkout@v4
         with:
           submodules: recursive
+          clean: false
       - run: |
           rm /home/runner/.bazelrc
           bazel build :grpc
 
   depot-remote-cache:
     name: Depot with Remote Cache
-    runs-on: depot-ubuntu-24.04
+    runs-on:
+      size: 2x8
+      image: ${{ vars.BENCHMARK_SNAPSHOT_IMAGE }}
     defaults:
       run:
         working-directory: upstream
@@ -28,4 +33,5 @@ jobs:
       - uses: actions/checkout@v4
         with:
           submodules: recursive
+          clean: false
       - run: bazel build :grpc
